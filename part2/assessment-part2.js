@@ -43,7 +43,13 @@ function noWeakLink() {
     method: 'GET',
     url: '/api/users'
   })
-  // CODE HERE...
+  .then(res => {
+    firstUser = res.data[0]
+    return res})
+  .then(response => {
+    thirdUser = response.data[2]
+    return response.data[9]
+  })
 
 }
 
@@ -73,7 +79,8 @@ function large() {
 
   return 'My name is ' + this.name + ' and I am very heavy!'
 }
-// CODE HERE...
+
+boundToElephant = large.bind(elephant)
 
 
 
@@ -87,7 +94,9 @@ function large() {
 // Use explicit binding to give capacity the context of crew
 // and return the bound function.
 
-// CODE HERE...
+function deathStar(capacity, crew){
+  return capacity.bind(crew)
+}
 
 
 
@@ -102,8 +111,11 @@ function large() {
 // The closure function will take in a parameter: liabilities (Number)
 // The closure function will return the combined value of assets and liabilities.
 
-// CODE HERE...
-
+function accountingOffice(assets){
+  return function(liabilities){
+    return assets + liabilities
+  }
+}
 
 
 // *************
@@ -127,8 +139,14 @@ function large() {
 //     remember: << array of items to be remembered >>
 // };
 
-// CODE HERE...
-
+function forgetter(name){
+  return function rememberall(item){
+    return{
+      name: name,
+      remember: this.remember ? [...this.remember, item]:[item]
+    }
+  }
+}
 
 
 // *************
@@ -155,4 +173,26 @@ function large() {
 
 // NOTE: Neither hunger nor danger should be able to exceed 100 or drop below 0.
 
-// CODE HERE...
+function frodo(startingHungerValue, startingDangerValue){
+  var hunger = startingHungerValue
+  var danger = startingDangerValue
+
+  return {
+    dinnerOverFire(){
+      hunger -= 25
+      danger += 40
+      return {
+        hunger: hunger > 100 ? 100 : hunger < 0 ? 0 : hunger,
+        danger: danger > 100 ? 100 : danger < 0 ? 0 : danger
+      }
+    },
+    hidingInBush(){
+      hunger += 35
+      danger -= 20
+      return {
+        hunger: hunger > 100 ? 100 : hunger < 0 ? 0 : hunger,
+        danger: danger > 100 ? 100 : danger < 0 ? 0 : danger
+      }
+    }
+  }
+}
